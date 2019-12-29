@@ -14,6 +14,12 @@
 
 #pragma once
 
+typedef struct YoloData
+{
+    char name[30];
+    float prob;
+} YoloData;
+
 struct CounterTopic
 {
     uint32_t counter;
