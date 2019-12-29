@@ -1,4 +1,5 @@
 #include "darknet.h"
+#include "ice_send.h"
 
 #include <time.h>
 #include <stdlib.h>
@@ -418,7 +419,9 @@ int main(int argc, char **argv)
         cuda_set_device(gpu_index);
     }
 #endif
-
+    //Initialize comunication with ICE
+    ice_init_send();
+    
     if (0 == strcmp(argv[1], "average")){
         average(argc, argv);
     } else if (0 == strcmp(argv[1], "yolo")){
@@ -498,6 +501,9 @@ int main(int argc, char **argv)
     } else {
         fprintf(stderr, "Not an option: %s\n", argv[1]);
     }
+    
+    //Close communication with ICE
+    ice_end_send();
     return 0;
 }
 

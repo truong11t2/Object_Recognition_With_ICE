@@ -10,7 +10,11 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
+#include "wrapper.h"
+#include "ice_send.h"
+
 int windows = 0;
+
 
 float colors[6][3] = { {1,0,1}, {0,0,1},{0,1,1},{0,1,0},{1,1,0},{1,0,0} };
 
@@ -239,7 +243,6 @@ image **load_alphabet()
 void draw_detections(image im, detection *dets, int num, float thresh, char **names, image **alphabet, int classes)
 {
     int i,j;
-
     for(i = 0; i < num; ++i){
         char labelstr[4096] = {0};
         int class = -1;
@@ -252,9 +255,12 @@ void draw_detections(image im, detection *dets, int num, float thresh, char **na
                     strcat(labelstr, ", ");
                     strcat(labelstr, names[j]);
                 }
+                //Passing the result to ice
+                ice_send(names[j], dets[i].prob[j]);
                 printf("%s: %.0f%%\n", names[j], dets[i].prob[j]*100);
             }
         }
+        
         if(class >= 0){
             int width = im.h * .006;
 
