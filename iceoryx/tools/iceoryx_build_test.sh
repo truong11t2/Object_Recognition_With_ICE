@@ -27,6 +27,7 @@ BUILD_ARGS=${1:-no_test_incremental}
 
 # The absolute path of the directory assigned to the build
 WORKSPACE=$(git rev-parse --show-toplevel)
+WORKSPACE+=/iceoryx
 test_flag="-Dtest=off"
 download_gtest_flag="-Ddownload_gtest=off"
 cd $WORKSPACE
