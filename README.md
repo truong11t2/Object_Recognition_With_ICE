@@ -31,7 +31,7 @@ wget https://pjreddie.com/media/files/yolov3.weights
 1. Go to: iceoryx/build/install/prefix/bin, initialize IPC communication with RouDi daemon by command:
 $ ./RouDi
 
-2. Go to: iceoryx_examples/icedelivery/icedelivery, run receiver program by command:
+2. Go to: iceoryx/build/iceoryx_examples/icedelivery/icedelivery, run receiver program by command:
 $ ./ice-subscriber-bare-metal
 
 3. Go to: darknet, run YoLov3 (an object recognition sw) by command:
