@@ -16,6 +16,7 @@
 
 typedef struct YoloData
 {
+    double tsend;
     char name[30];
     float prob;
 } YoloData;

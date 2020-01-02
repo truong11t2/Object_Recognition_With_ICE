@@ -19,8 +19,18 @@
 #include <chrono>
 #include <csignal>
 #include <iostream>
+#include <time.h>
 
 bool killswitch = false;
+
+double what_time_is_it_now()
+{
+    struct timeval time;
+    if (gettimeofday(&time,NULL)){
+        return 0;
+    }
+    return (double)time.tv_sec + (double)time.tv_usec * .000001;
+}
 
 static void sigHandler(int f_sig[[gnu::unused]])
 {
@@ -39,6 +49,8 @@ void receiving()
     // The subscriber will not do the subscription before we call subscribe(). The queue size of the subscriber is
     // provided as parameter
     mySubscriber.subscribe(10);
+    
+    double tdiff = 0;
 
     while (!killswitch)
     {
@@ -53,8 +65,10 @@ void receiving()
             {
                 // we know what we expect for the CaPro ID we provided with the subscriber c'tor. So we do a cast here
                 auto sample = static_cast<const YoloData*>(chunk);
+                
+                tdiff = what_time_is_it_now() - sample->tsend;
 
-                std::cout << "Receiving: " << sample->name << ": "<< sample->prob << std::endl;
+                std::cout << "Receiving: " << sample->name << ": "<< sample->prob << " with delay time: " << tdiff <<" sec" << std::endl;
 
                 // signal the middleware that this chunk was processed and in no more accesssed by the user side
                 mySubscriber.releaseChunk(chunk);

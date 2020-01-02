@@ -243,6 +243,7 @@ image **load_alphabet()
 void draw_detections(image im, detection *dets, int num, float thresh, char **names, image **alphabet, int classes)
 {
     int i,j;
+    YoloData yoloData;
     for(i = 0; i < num; ++i){
         char labelstr[4096] = {0};
         int class = -1;
@@ -256,7 +257,10 @@ void draw_detections(image im, detection *dets, int num, float thresh, char **na
                     strcat(labelstr, names[j]);
                 }
                 //Passing the result to ice
-                ice_send(names[j], dets[i].prob[j]);
+                yoloData.tsend = what_time_is_it_now();
+                strcpy(yoloData.name, names[j]);
+                yoloData.prob = dets[i].prob[j];
+                ice_send(yoloData);
                 printf("%s: %.0f%%\n", names[j], dets[i].prob[j]*100);
             }
         }

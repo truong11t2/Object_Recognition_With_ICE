@@ -13,6 +13,7 @@
 //Common Data structure between ice and yolo
 typedef struct YoloData
 {
+    double tsend;
     char name[30];
     float prob;
 } YoloData;

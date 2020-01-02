@@ -27,18 +27,18 @@ void ice_init_send()
     printf("Receivers can see transmitter now\n");
 }
 
-void ice_send(char *name, float prob)
+void ice_send(YoloData data)
  {
-    YoloData chunk;
     
     // Allocate a memory chunk for the sample to be sent
-    YoloData* sample = (YoloData*)Publisher_allocateChunk(myPublisher, chunk);
+    YoloData* sample = (YoloData*)Publisher_allocateChunk(myPublisher, data);
     
-    strcpy(sample->name, name);
-    sample->prob = prob;
+    sample->tsend = data.tsend;
+    strcpy(sample->name, data.name);
+    sample->prob = data.prob;
     
     // Send the sample
-    printf("Sending: %s: %f\n", sample->name, sample->prob);
+    printf("At time %.6f sending: %s: %f\n", data.tsend, sample->name, sample->prob);
     Publisher_sendChunk(myPublisher, sample);
     //sleep(1);
 }
